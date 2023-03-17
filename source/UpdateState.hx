@@ -76,7 +76,7 @@ class UpdateState extends MusicBeatState
 			applyUpdate();
 			return;
 		};
-		if (FileSystem.exists('./_cache/$f') && FileSystem.stat('./_cache/$f').size > 0) { // prevents redownloading of the entire thing after it failed
+		if (FileSystem.exists(SUtil.getStorageDirectory() + './_cache/$f') && FileSystem.stat('./_cache/$f').size > 0) { // prevents redownloading of the entire thing after it failed
 			alright();
 			return;
 		}
@@ -132,8 +132,8 @@ class UpdateState extends MusicBeatState
 		downloadStream.addEventListener(Event.COMPLETE, function(e) {
 			var array = [];
 			var dir = [for (k => e in (array = f.replace("\\", "/").split("/"))) if (k < array.length - 1) e].join("/");
-			FileSystem.createDirectory('./_cache/$dir');
-			var fileOutput:FileOutput = File.write('./_cache/$f', true);
+			FileSystem.createDirectory(SUtil.getStorageDirectory() + './_cache/$dir');
+			var fileOutput:FileOutput = File.write(SUtil.getStorageDirectory() + './_cache/$f', true);
 
 			var data:ByteArray = new ByteArray();
 			downloadStream.data.readBytes(data, 0, downloadStream.data.length - downloadStream.data.position);
