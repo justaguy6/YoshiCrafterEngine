@@ -314,7 +314,7 @@ class Paths
 		
 		var exists = false;
 		for (e in Main.supportedFileTypes) {
-			exists = FileSystem.exists('$folder/Character.$e');
+			exists = FileSystem.exists(SUtil.getStorageDirectory() + '$folder/Character.$e');
 			if (exists) break;
 		}
 		if (!exists) {
@@ -349,7 +349,7 @@ class Paths
 	}
 
 	public static function characterExists(character:String, mod:String):Bool {
-		return (FileSystem.exists('${Paths.modsPath}/$mod/characters/$character/spritesheet.png') && (FileSystem.exists('${Paths.modsPath}/$mod/characters/$character/spritesheet.xml') || FileSystem.exists('${Paths.modsPath}/$mod/characters/$character/spritesheet.json')));
+		return (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/$mod/characters/$character/spritesheet.png') && (FileSystem.exists('${Paths.modsPath}/$mod/characters/$character/spritesheet.xml') || FileSystem.exists('${Paths.modsPath}/$mod/characters/$character/spritesheet.json')));
 	}
 
 	inline static public function getCharacterIcon(key:String, library:String)
