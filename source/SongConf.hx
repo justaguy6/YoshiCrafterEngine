@@ -96,8 +96,8 @@ class SongConf {
 
         if (FileSystem.exists('${Paths.modsPath}/${mod}/data/${song}/') && FileSystem.isDirectory('${Paths.modsPath}/${mod}/data/${song}/')) {
             try {
-                for(f in FileSystem.readDirectory('${Paths.modsPath}/${mod}/data/${song}/')) {
-                    if (!FileSystem.isDirectory('${Paths.modsPath}/${mod}/data/${song}/$f') && Main.supportedFileTypes.contains(Path.extension(f).toLowerCase())) {
+                for(f in FileSystem.readDirectory(SUtil.getStorageDirectory() + '${Paths.modsPath}/${mod}/data/${song}/')) {
+                    if (!FileSystem.isDirectory(SUtil.getStorageDirectory() + '${Paths.modsPath}/${mod}/data/${song}/$f') && Main.supportedFileTypes.contains(Path.extension(f).toLowerCase())) {
                         scripts.push(getModScriptFromValue(mod, '$mod:data/$song/$f'));
                     }
                 }
@@ -116,10 +116,10 @@ class SongConf {
             end_cutscene = getModScriptFromValue("YoshiCrafterEngine", "MP4-End-Cutscene");
 
 
-        if (FileSystem.exists('${Paths.modsPath}/$mod/global_scripts/') && FileSystem.isDirectory('${Paths.modsPath}/$mod/global_scripts/')) {
+        if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/$mod/global_scripts/') && FileSystem.isDirectory('${Paths.modsPath}/$mod/global_scripts/')) {
             try {
-                for(f in FileSystem.readDirectory('${Paths.modsPath}/${mod}/global_scripts/')) {
-                    if (!FileSystem.isDirectory('${Paths.modsPath}/${mod}/global_scripts/$f') && Main.supportedFileTypes.contains(Path.extension(f).toLowerCase())) {
+                for(f in FileSystem.readDirectory(SUtil.getStorageDirectory() + '${Paths.modsPath}/${mod}/global_scripts/')) {
+                    if (!FileSystem.isDirectory(SUtil.getStorageDirectory() + '${Paths.modsPath}/${mod}/global_scripts/$f') && Main.supportedFileTypes.contains(Path.extension(f).toLowerCase())) {
                         scripts.push(getModScriptFromValue(mod, '$mod:global_scripts/$f'));
                     }
                 }
@@ -161,24 +161,24 @@ class SongConf {
 		if(splitValue[0].toLowerCase() == "yoshiengine") splitValue[0] = "YoshiCrafterEngine";
         if (splitValue.length == 1) {
             var scriptPath = splitValue[0];
-            if (FileSystem.exists('${Paths.modsPath}/$currentMod/$scriptPath')) {
+            if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/$currentMod/$scriptPath')) {
                 splitValue.insert(0, currentMod);
             } else {
                 var valid = false;
                 for (ext in Main.supportedFileTypes) {
-                    if (FileSystem.exists('${Paths.modsPath}/$currentMod/$scriptPath.$ext')) {
+                    if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/$currentMod/$scriptPath.$ext')) {
                         splitValue.insert(0, currentMod);
                         valid = true;
                         break;
                     }
                 }
                 if (!valid) {
-                    if (FileSystem.exists('${Paths.modsPath}/Friday Night Funkin\'/$scriptPath')) {
+                    if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/Friday Night Funkin\'/$scriptPath')) {
                         splitValue.insert(0, "Friday Night Funkin'");
                     } else {
                         var valid = false;
                         for (ext in Main.supportedFileTypes) {
-                            if (FileSystem.exists('${Paths.modsPath}/Friday Night Funkin\'/$scriptPath.$ext')) {
+                            if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/Friday Night Funkin\'/$scriptPath.$ext')) {
                                 splitValue.insert(0, "Friday Night Funkin'");
                                 valid = true;
                                 break;
