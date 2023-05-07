@@ -1,10 +1,14 @@
 package;
 
 import mod_support_stuff.InstallModScreen;
+#if desktop
 import logging.LogsOverlay;
+#end
 import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
+#if windows 
 import WindowsAPI.ConsoleColor;
+#end
 import flixel.system.debug.log.LogStyle;
 import haxe.io.Input;
 import haxe.io.BytesBuffer;
@@ -38,8 +42,10 @@ class Main extends Sprite
 
 	public static var baseTrace = haxe.Log.trace;
 
+	#if desktop
 	public static var logsOverlay:LogsOverlay;
-
+        #end
+		 
 	public static function readLine(buff:Input, l:Int):String {
 		var line:Int = 0;
 		var fuck = 0;
@@ -119,6 +125,7 @@ class Main extends Sprite
 			}
 		};
 		
+		#if desktop
 		var args = [for (arg in Sys.args()) if (arg.startsWith("/")) '-${arg.substr(1)}' else arg];
 		
 		if (!parseArgs(args)) {
@@ -159,7 +166,8 @@ class Main extends Sprite
 		try {
 			if (FileSystem.exists("YoshiEngine.exe")) FileSystem.deleteFile('YoshiEngine.exe');
 		} catch(e) {}
-
+                #end
+			
 		#if cpp
 		trace("main");
 		Lib.current.addChild(new Main());
@@ -169,6 +177,7 @@ class Main extends Sprite
 	}
 
 	public static function fixWorkingDirectory() {
+		#if desktop 
 		var curDir = Sys.getCwd();
 		var execPath = Sys.programPath();
 		var p = execPath.replace("\\", "/").split("/");
@@ -176,8 +185,10 @@ class Main extends Sprite
 		Sys.setCwd(p.join("\\") + "\\");
 
 		HeaderCompilationBypass.enableVisualStyles();
+		#end
 	}
 
+	#if desktop
 	public static final commandPromptArgs:Array<String> = [
 		"",
 		"YoshiCrafter Engine - Command Prompt arguments",
@@ -211,6 +222,7 @@ class Main extends Sprite
 		}
 		return true;
 	}
+	#end
 
 	public function new()
 	{
@@ -232,6 +244,7 @@ class Main extends Sprite
 
 	private function init(?E:Event):Void
 	{
+		#if desktop 
 		stage.window.onDropFile.add(function(path:String) {
 			if (Std.isOfType(FlxG.state, MusicBeatState)) {
 				var checkSubstate:FlxState->Void = function(state) {
@@ -249,6 +262,7 @@ class Main extends Sprite
 				checkSubstate(state);
 			}
 		});
+		#end
 		if (hasEventListener(Event.ADDED_TO_STAGE)) removeEventListener(Event.ADDED_TO_STAGE, init);
 
 		setupGame();
@@ -299,10 +313,11 @@ class Main extends Sprite
 
 		
 		fps = new GameStats(10, 3, 0xFFFFFF);
-
+                #if desktop
 		logsOverlay = new LogsOverlay();
-
-		addChild(fps);
 		addChild(logsOverlay);
+                #end
+		addChild(fps);
+		
 	}
 }
