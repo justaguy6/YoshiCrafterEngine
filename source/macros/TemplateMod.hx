@@ -15,9 +15,9 @@ class TemplateMod {
         zipWriter.close();
         trace("Template mod successfully zipped.");
 
-        var folder = '${Compiler.getOutput()}/../bin/assets/misc';
+        var folder = SUtil.getStorageDirectory () + '${Compiler.getOutput()}/../bin/assets/misc';
         FileSystem.createDirectory(folder);
-        File.copy('template_mod.zip', '$folder/template_mod.zip');
+        File.copy(SUtil.getStorageDirectory() + 'template_mod.zip', '$folder/template_mod.zip');
         return $v{null};
     }
     #end
