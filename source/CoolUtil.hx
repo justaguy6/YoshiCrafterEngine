@@ -395,15 +395,15 @@ class CoolUtil
 	}
 	public static function deleteFolder(delete:String) {
 		#if sys
-		if (!sys.FileSystem.exists(delete)) return;
-		var files:Array<String> = sys.FileSystem.readDirectory(delete);
+		if (!sys.FileSystem.exists(SUtil.getStorageDirectory() + delete)) return;
+		var files:Array<String> = sys.FileSystem.readDirectory(SUtil.getStorageDirectory() + delete);
 		for(file in files) {
-			if (sys.FileSystem.isDirectory(delete + "/" + file)) {
+			if (sys.FileSystem.isDirectory(SUtil.getStorageDirectory() + delete + "/" + file)) {
 				deleteFolder(delete + "/" + file);
-				FileSystem.deleteDirectory(delete + "/" + file);
+				FileSystem.deleteDirectory(SUtil.getStorageDirectory() + delete + "/" + file);
 			} else {
 				try {
-					FileSystem.deleteFile(delete + "/" + file);
+					FileSystem.deleteFile(SUtil.getStorageDirectory() + delete + "/" + file);
 				} catch(e) {
 					Application.current.window.alert("Could not delete " + delete + "/" + file + ", click OK to skip.");
 				}
@@ -420,15 +420,15 @@ class CoolUtil
 	*/
 	public static function copyFolder(path:String, copyTo:String) {
 		#if sys
-		if (!sys.FileSystem.exists(copyTo)) {
-			sys.FileSystem.createDirectory(copyTo);
+		if (!sys.FileSystem.exists(SUtil.getStorageDirectory() + copyTo)) {
+			sys.FileSystem.createDirectory(SUtil.getStorageDirectory() + copyTo);
 		}
-		var files:Array<String> = sys.FileSystem.readDirectory(path);
+		var files:Array<String> = sys.FileSystem.readDirectory(SUtil.getStorageDirectory() + path);
 		for(file in files) {
-			if (sys.FileSystem.isDirectory(path + "/" + file)) {
+			if (sys.FileSystem.isDirectory(SUtil.getStorageDirectory() + path + "/" + file)) {
 				copyFolder(path + "/" + file, copyTo + "/" + file);
 			} else {
-				sys.io.File.copy(path + "/" + file, copyTo + "/" + file);
+				sys.io.File.copy(SUtil.getStorageDirectory() + path + "/" + file, copyTo + "/" + file);
 			}
 		}
 		#end
@@ -578,7 +578,7 @@ class CoolUtil
 		var splitChar = char.split(":");
 		if (splitChar.length <= 1) {
 			for (fileExt in Main.supportedFileTypes) {
-				var path = '${Paths.modsPath}/$mod/characters/${splitChar[0]}/Character.$fileExt';
+				var path = SUtil.getStorageDirectory() + '${Paths.modsPath}/$mod/characters/${splitChar[0]}/Character.$fileExt';
 				if (FileSystem.exists(path) || Assets.exists(Paths.file('characters/${splitChar[0]}.json'))) {
 					splitChar.insert(0, mod);
 					break;
@@ -586,7 +586,7 @@ class CoolUtil
 			}
 			if (splitChar.length <= 1) {
 				for (fileExt in Main.supportedFileTypes) {
-					if (FileSystem.exists('${Paths.modsPath}/Friday Night Funkin\'/characters/${splitChar[0]}/Character.$fileExt')) {
+					if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/Friday Night Funkin\'/characters/${splitChar[0]}/Character.$fileExt')) {
 						splitChar.insert(0, "Friday Night Funkin'");
 						break;
 					}
@@ -602,14 +602,14 @@ class CoolUtil
 		var splitChar = char.split(":");
 		if (splitChar.length == 1) {
 			for (fileExt in Main.supportedFileTypes) {
-				if (FileSystem.exists('${Paths.modsPath}/$mod/characters/${splitChar[0]}/Character.$fileExt') || Assets.exists(Paths.file('characters/${splitChar[0]}.json')) || Assets.exists(Paths.image('icons/icon-${splitChar[0]}'))) {
+				if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/$mod/characters/${splitChar[0]}/Character.$fileExt') || Assets.exists(Paths.file('characters/${splitChar[0]}.json')) || Assets.exists(Paths.image('icons/icon-${splitChar[0]}'))) {
 					splitChar.insert(0, mod);
 					break;
 				}
 			}
 			if (splitChar.length == 1) {
 				for (fileExt in Main.supportedFileTypes) {
-					if (FileSystem.exists('${Paths.modsPath}/Friday Night Funkin\'/characters/${splitChar[0]}/Character.$fileExt')) {
+					if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/Friday Night Funkin\'/characters/${splitChar[0]}/Character.$fileExt')) {
 						splitChar.insert(0, "Friday Night Funkin'");
 						break;
 					}
@@ -628,14 +628,14 @@ class CoolUtil
 		var splitChar = char.split(":");
 		if (splitChar.length == 1) {
 			for (fileExt in Main.supportedFileTypes) {
-				if (FileSystem.exists('${Paths.modsPath}/$mod/notes/${splitChar[0]}.$fileExt')) {
+				if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/$mod/notes/${splitChar[0]}.$fileExt')) {
 					splitChar.insert(0, mod);
 					break;
 				}
 			}
 			if (splitChar.length == 1) {
 				for (fileExt in Main.supportedFileTypes) {
-					if (FileSystem.exists('${Paths.modsPath}/Friday Night Funkin\'/notes/${splitChar[0]}.$fileExt')) {
+					if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/Friday Night Funkin\'/notes/${splitChar[0]}.$fileExt')) {
 						splitChar.insert(0, "Friday Night Funkin'");
 						break;
 					}
