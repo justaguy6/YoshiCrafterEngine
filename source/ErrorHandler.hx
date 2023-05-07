@@ -7,6 +7,7 @@ import haxe.CallStack;
 using StringTools;
 
 class ErrorHandler {
+    #if desktop
     @:unreflective
     private static var __superCoolErrorMessagesArray:Array<String> = [
         "A fatal error has occ- wait what?",
@@ -126,4 +127,53 @@ class ErrorHandler {
         
         
     }
+    #else
+     public static function AndroidErrorHandler() {
+        Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent)
+		{
+			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+			var errMsg:String = '';
+
+			for (stackItem in callStack)
+			{
+				switch (stackItem)
+				{
+					case CFunction:
+						errMsg += 'a C function\n';
+					case Module(m):
+						errMsg += 'module ' + m + '\n';
+					case FilePos(s, file, line, column):
+						errMsg += file + ' (line ' + line + ')\n';
+					case Method(cname, meth):
+						errMsg += cname == null ? "<unknown>" : cname + '.' + meth + '\n';
+					case LocalFunction(n):
+						errMsg += 'local function ' + n + '\n';
+				}
+			}
+
+			errMsg += u.error;
+
+			try
+			{
+				var path:String = SUtil.getStorageDirectory();
+					if (!FileSystem.exists(path + 'logs')) {
+						FileSystem.createDirectory(path + 'logs');
+					}
+				    File.saveContent(path
+					+ 'logs/'
+					+ Application.current.meta.get('file')
+					+ '-'
+					+ Date.now().toString().replace(' ', '-').replace(':', "'")
+					+ '.log',
+					errMsg
+					+ '\n');
+			}
+
+			Sys.println(errMsg);
+			Application.current.window.alert(errMsg, 'Error!');
+
+			System.exit(1);
+		});
+    }
+    #end     
 }
