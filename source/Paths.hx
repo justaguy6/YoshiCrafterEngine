@@ -40,10 +40,10 @@ class Paths
 	
 	public static function get_modsPath() {
 		
-		#if sourceCode
+		#if (sourceCode || !android)
 			return './../../../../mods';
 		#elseif android
-			return '${System.userDirectory}/YoshiCrafter Engine/mods';
+			return SUtil.getStorageDirectory() +'mods';
 		#else
 			return './mods';
 		#end
@@ -197,7 +197,7 @@ class Paths
 	
 	inline static public function getSkinsPath() {
 		#if android
-			return '${System.userDirectory}/YoshiCrafter Engine/skins/';
+			return SUtil.getStorageDirectory() + 'skins/';
 		#else
 			return "./skins/";
 		#end
