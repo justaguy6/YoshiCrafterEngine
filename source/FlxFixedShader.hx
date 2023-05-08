@@ -33,7 +33,8 @@ class FlxFixedShader extends FlxShader {
 
         if (__context != null && program == null)
         {
-            var prefix = "#version 120\n";
+            var prefix = #if desktop "#version 120\n" #else "" #end; //a versão 120 não é suportada no Android 
+ 
 
             var gl = __context.gl;
 
