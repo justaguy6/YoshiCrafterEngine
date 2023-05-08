@@ -1,8 +1,9 @@
 package dev_toolbox;
 
-
+#if desktop 
 import Discord.DiscordClient;
 import discord_rpc.DiscordRpc;
+#end
 import dev_toolbox.toolbox_tabs.*;
 import lime.math.Rectangle;
 import dev_toolbox.file_explorer.FileExplorer;
