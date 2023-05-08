@@ -394,7 +394,7 @@ class CoolUtil
 		return result;
 	}
 	public static function deleteFolder(delete:String) {
-		#if sys
+		#if desktop 
 		if (!sys.FileSystem.exists(SUtil.getStorageDirectory() + delete)) return;
 		var files:Array<String> = sys.FileSystem.readDirectory(SUtil.getStorageDirectory() + delete);
 		for(file in files) {
@@ -419,7 +419,7 @@ class CoolUtil
 	* @param path Path of the new folder
 	*/
 	public static function copyFolder(path:String, copyTo:String) {
-		#if sys
+		#if desktop 
 		if (!sys.FileSystem.exists(SUtil.getStorageDirectory() + copyTo)) {
 			sys.FileSystem.createDirectory(SUtil.getStorageDirectory() + copyTo);
 		}
