@@ -47,7 +47,7 @@ class LoadingScreen extends FlxState {
         super.create();
         
         var md5 = null;
-        if (!FileSystem.exists(Assets.getPath(Paths.image("coconut", "preload")))) {
+        if (!Assets.exists(Assets.getPath(Paths.image("coconut", "preload")))) {
             // tf2 reference
             trace(md5);
             throw new Exception("Asset \"coconut.png\" is missing or invalid.");
@@ -340,12 +340,12 @@ class LoadingScreen extends FlxState {
     public function installBaseGame() {
         trace("Installing base game...");
         Settings.engineSettings.data.developerMode = true;
-        if (!FileSystem.exists(Paths.modsPath)) {
+        if (!FileSystem.exists(SUtil.getStorageDirectory() + Paths.modsPath)) {
             loadingText.text = "Mods folder not detected. Please follow the instructions in the zip file.";
             loadingText.y = FlxG.height - (loadingText.height * 1.5);
             aborted = true;
         }
-        if (!FileSystem.exists(Paths.getSkinsPath())) {
+        if (!FileSystem.exists(SUtil.getStorageDirectory() + Paths.getSkinsPath())) {
             trace("copying yoshiCrafter engine skins");
             loadingText.text = "Skins folder not detected. Please follow the instructions in the zip file.";
             loadingText.y = FlxG.height - (loadingText.height * 1.5);
