@@ -1,4 +1,5 @@
 // CLASS USED TO BYPASS HEADER COMPILATION SHIT! (cause hxcpp is dumb)
+#if windows // obviamente do windows 
 import WindowsAPI.MessageBoxIcon;
 class HeaderCompilationBypass {
     public static function darkMode() {
@@ -20,3 +21,4 @@ class HeaderCompilationBypass {
         WindowsAPI.showErrorHandler(_caption, _silly, _exception, _stack);
     }
 }
+#end
