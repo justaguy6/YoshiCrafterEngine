@@ -100,6 +100,8 @@ class ModSupport {
         // DiscordClient.currentButton2Url = (mod.downloadLinkAlt != null && mod.downloadLinkAlt.trim() != "") ? mod.downloadLinkAlt : null;
         // DiscordClient.switchRPC(discordRpc);
 
+	    
+	#if desktop
         if (!DiscordClient.init) {
             trace("Discord not init yet");
             return;
@@ -115,9 +117,11 @@ class ModSupport {
         DiscordClient.currentButton2Url = (mod.downloadLinkAlt != null && mod.downloadLinkAlt.trim() != "") ? mod.downloadLinkAlt : null;
         
         DiscordClient.switchRPC(discordRpc);
+	#end    
+	    
     }
     public static function getMods():Array<String> {
-        var modFolder = Paths.modsPath;
+        var modFolder = SUtil.getStorageDirectory();
         var a = FileSystem.readDirectory(modFolder);
         var finalArray = [];
         for (e in a) {
@@ -127,8 +131,8 @@ class ModSupport {
     }
 
     public static function getAssetFiles(assets:Array<Dynamic>, rootPath:String, path:String, libraryName:String, prefix:String = "", addRoot:Bool = false) {
-        for(f in FileSystem.readDirectory('$rootPath$path')) {
-            if (FileSystem.isDirectory('$rootPath$path$f')) {
+        for(f in FileSystem.readDirectory(SUtil.getStorageDirectory() + '$rootPath$path')) {
+            if (FileSystem.isDirectory(SUtil.getStorageDirectory() + '$rootPath$path$f')) {
                 // fuck you git
                 if (f.toLowerCase() != ".git")
                     getAssetFiles(assets, rootPath, '$path$f/', libraryName);
@@ -147,7 +151,7 @@ class ModSupport {
                         useExt = false;
 
                 }
-                var stat = FileSystem.stat('$rootPath$path$f');
+                var stat = FileSystem.stat(SUtil.getStorageDirectory() + '$rootPath$path$f');
                 assets.push({
                     type: type,
                     id: ('assets/$libraryName/$prefix$path${useExt ? f : Path.withoutExtension(f)}').toLowerCase(), // for case sensitive shit & correct linux support
@@ -246,12 +250,12 @@ class ModSupport {
             assets.version = 2;
             assets.libraryArgs = [];
             assets.assets = [];
-            FileSystem.createDirectory('${Paths.getSkinsPath()}/bf/');
-            FileSystem.createDirectory('${Paths.getSkinsPath()}/gf/');
-            FileSystem.createDirectory('${Paths.getSkinsPath()}/notes/');
+            FileSystem.createDirectory(SUtil.getStorageDirectory() + '${Paths.getSkinsPath()}/bf/');
+            FileSystem.createDirectory(SUtil.getStorageDirectory() + '${Paths.getSkinsPath()}/gf/');
+            FileSystem.createDirectory(SUtil.getStorageDirectory() + '${Paths.getSkinsPath()}/notes/');
             for (char in ["bf", "gf"]) {
-                for(skin in [for (e in FileSystem.readDirectory('${Paths.getSkinsPath()}$char/')) if (FileSystem.isDirectory('${Paths.getSkinsPath()}$char/$e')) e]) {
-                    var path = '${Paths.getSkinsPath()}$char/$skin/';
+                for(skin in [for (e in FileSystem.readDirectory(SUtil.getStorageDirectory() + '${Paths.getSkinsPath()}$char/')) if (FileSystem.isDirectory('${Paths.getSkinsPath()}$char/$e')) e]) {
+                    var path = SUtil.getStorageDirectory() + '${Paths.getSkinsPath()}$char/$skin/';
                     for (f in FileSystem.readDirectory(path)) {
                         var type = "TEXT";
                         if (Path.extension(f).toLowerCase() == "png") {
@@ -260,7 +264,7 @@ class ModSupport {
                         assets.assets.push({
                             type: type,
                             id: ('assets/skins/characters/$char/$skin/$f').toLowerCase(), // for case sensitive shit & correct linux support
-                            path: '$path$f',
+                            path: SUtil.getStorageDirectory() + '$path$f',
                             size: FileSystem.stat('$path$f').size
                         });
                     }
@@ -387,7 +391,7 @@ class ModSupport {
             }
         } else {
             modMedals[mod] = {medals: []};
-            File.saveContent('${Paths.modsPath}/$mod/medals.json', Json.stringify(modMedals[mod]));
+            SUtil.saveContent('${Paths.modsPath}/$mod/medals.json', Json.stringify(modMedals[mod]));
         }
         if (!Settings.engineSettings.data.lastInstalledMods.contains(mod)) {
             trace("NEW MOD INSTALLED: " + mod);
@@ -453,9 +457,9 @@ class ModSupport {
     }
 
     public static function saveModData(mod:String):Bool {
-        if (FileSystem.exists('${Paths.modsPath}/$mod/')) {
+        if (FileSystem.exists(SUtil.getStorageDirectory() + '${Paths.modsPath}/$mod/')) {
             if (modConfig[mod] != null) {
-                File.saveContent('${Paths.modsPath}/$mod/config.json', Json.stringify(modConfig[mod], "\t"));
+                SUtil.saveContent('${Paths.modsPath}/$mod/config.json', Json.stringify(modConfig[mod], "\t"));
                 return true;
             }
         }
@@ -602,7 +606,7 @@ class ModSupport {
     }
     public static function parseSongConfig() {
         var songName = PlayState._SONG.song.toLowerCase();
-        var songCodePath = Paths.modsPath + '/$currentMod/song_conf';
+        var songCodePath = SUtil.getStorageDirectory() + Paths.modsPath + '/$currentMod/song_conf';
 
         var songConf = SongConf.parse(PlayState.songMod, PlayState.SONG.song, PlayState.SONG);
 
