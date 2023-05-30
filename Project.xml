@@ -100,7 +100,7 @@
 	<haxelib name="flixel-yc29" rename="flixel" />
 	
 	<haxelib name="hscript-yoshiengine" />
-
+        <haxelib name="extension-androidtools" />
 	<haxelib name="linc_luajit" /> <!-- https://github.com/nebulazorua/linc_luajit --> 
 	
 	<haxelib name="discord_rpc_yce" if="desktop"/>
