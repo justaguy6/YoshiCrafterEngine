@@ -1,4 +1,5 @@
-﻿	"dependencies":[
+{
+   "dependencies":[
 		{
 			"name":"hxcpp",
 			"type": "haxelib"
