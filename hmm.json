@@ -73,7 +73,7 @@
 		"url":"https://github.com/MAJigsaw77/extension-androidtools"
 		},
 		{
-		"name":"flixel-textureatlas-yoshiengine",
+		"name":"Flixel-TextureAtlas",
 		"type":"git",
 		"ref":"main",
 		"url":"https://github.com/Smokey555/Flixel-TextureAtlas"
