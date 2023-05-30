@@ -15,7 +15,7 @@
 	<haxedef name="HXCPP_STACK_LINE" if="release" />
 	<haxedef name="HXCPP_DEBUG_LINK" if="release" />
 	<haxedef name="hscriptPos" /> <!-- for logging -->
-	<haxedef name="newgrounds" if="windows"/>
+	<haxedef name="newgrounds" if="windows || android"/>
 	<!-- <haxedef name="lua" unless="android"/> -->
 	
 	<!--Switch Export with Unique ApplicationID and Icon-->
@@ -41,7 +41,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" resizable="false" allow-shaders="true" require-shaders="true"/>
+	<window if="mobile" orientation="landscape" fullscreen="true" width="1280" height="720" resizable="false" allow-shaders="true" require-shaders="true"/>
 
 	<!--Switch-specific-->
 	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
@@ -163,12 +163,6 @@
 	<icon path="art/icons/128.png" size='128'/>
 	<icon path="art/icons/256.png" size='256'/>
 
-	<!-- Android stuff -->
-	<android permission="android.permission.ACCESS_NETWORK_STATE"/>
-	<android permission="android.permission.INTERNET"/>
-	<android permission="android.permission.VIBRATE"/>
-	<android permission="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<android permission="android.permission.READ_EXTERNAL_STORAGE"/>
 	<haxedef name="MOBILE_UI" if="android"/>
 	
 	<haxeflag name="-dce" value="no" />
