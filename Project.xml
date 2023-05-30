@@ -106,7 +106,7 @@
 	<haxelib name="discord_rpc_yce" if="desktop"/>
 	<haxedef name="enable_updates"/>
 	<haxelib name="hxp"/>
-	<haxelib name="flixel-textureatlas-yoshiengine"/>
+	<haxelib name="Flixel-TextureAtlas"/>
 
 	<!--In case you want to use nape with flixel-->
 	<!--<haxelib name="nape-haxe4" />-->
